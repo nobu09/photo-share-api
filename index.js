@@ -6,7 +6,15 @@ const typeDefs = `
   type Query {
     totalPhotos: Int!
   }
+
+  type Mutation {
+    postPhoto(name: String!
+      description: String): Boolean
+  }
 `
+
+// 写真を格納するための配列を定義
+var photos = []
 
 // totalPhotos というクエリを作成したので、スキーマと同じ名前のリゾルバ関数を定義する必要がある
 // 静的に42を返す

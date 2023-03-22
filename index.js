@@ -8,8 +8,7 @@ const typeDefs = `
   }
 
   type Mutation {
-    postPhoto(name: String!
-      description: String): Boolean
+    postPhoto(name: String! description: String): Boolean
   }
 `
 
@@ -17,10 +16,20 @@ const typeDefs = `
 var photos = []
 
 // totalPhotos というクエリを作成したので、スキーマと同じ名前のリゾルバ関数を定義する必要がある
-// 静的に42を返す
+// 写真を格納した配列の長さを返す
 const resolvers = {
   Query: {
-    totalPhotos: () => 42
+    totalPhotos: () => photos.length
+  },
+
+  // postPhoto ミューテーションと対応するリゾルバ
+  // parent: 親オブジェクト（Mutation）への参照、root or obj、常にリゾルバの第一引数になる
+  // args: この操作のために送られたGraphQL引数、{name,description} というオブジェクト
+  Mutation: {
+    postPhoto(parent, args) {
+      photos.push(args)
+      return true
+    }
   }
 }
 

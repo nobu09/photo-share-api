@@ -3,12 +3,23 @@ const { ApolloServer } = require(`apollo-server`)
 
 // typeDefs 変数に文字列としてスキーマを定義
 const typeDefs = `
-  type Query {
-    totalPhotos: Int!
+  # Photo 型を定義
+  type Photo {
+    id: ID!
+    url: String!
+    name: String!
+    description: String
   }
 
+  # allPhotos は Photo を返す
+  type Query {
+    totalPhotos: Int!
+    allPhotos: [Photo!]!
+  }
+
+  # ミューテーションによって新たに投稿された Photo を返す
   type Mutation {
-    postPhoto(name: String! description: String): Boolean
+    postPhoto(name: String! description: String): Photo!
   }
 `
 

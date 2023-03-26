@@ -23,6 +23,8 @@ const typeDefs = `
   }
 `
 
+// ユニークIDをインクリメントするための変数
+var _id = 0
 // 写真を格納するための配列を定義
 var photos = []
 
@@ -38,8 +40,15 @@ const resolvers = {
   // args: この操作のために送られたGraphQL引数、{name,description} というオブジェクト
   Mutation: {
     postPhoto(parent, args) {
-      photos.push(args)
-      return true
+      // 新しい写真を作成し、idを生成する
+      var newPhoto = {
+        id: _id++,
+        ...args
+      }
+      photos.push(newPhoto)
+
+      // 新しい写真を返す
+      return newPhoto
     }
   }
 }

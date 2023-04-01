@@ -32,7 +32,8 @@ var photos = []
 // 写真を格納した配列の長さを返す
 const resolvers = {
   Query: {
-    totalPhotos: () => photos.length
+    totalPhotos: () => photos.length,
+    allPhotos: () => photos
   },
 
   // postPhoto ミューテーションと対応するリゾルバ

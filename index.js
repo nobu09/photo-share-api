@@ -3,12 +3,21 @@ const { ApolloServer } = require(`apollo-server`)
 
 // typeDefs 変数に文字列としてスキーマを定義
 const typeDefs = `
+  enum PhotoCategory {
+    SELFIE
+    PORTRAIT
+    ACTION
+    LANDSCAPE
+    GRAPHIC
+  }
+
   # Photo 型を定義
   type Photo {
     id: ID!
     url: String!
     name: String!
     description: String
+    category: PhotoCategory!
   }
 
   # allPhotos は Photo を返す

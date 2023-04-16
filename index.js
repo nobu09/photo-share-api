@@ -59,7 +59,7 @@ const resolvers = {
       // 新しい写真を作成し、idを生成する
       var newPhoto = {
         id: _id++,
-        ...args
+        ...args.input
       }
       photos.push(newPhoto)
 

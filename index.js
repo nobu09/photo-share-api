@@ -21,7 +21,9 @@ const typeDefs = `
   }
 
   input PostPhotoInput {
-    
+    name: String!
+    category: PhotoCategory=POTRAIT
+    description: String
   }
 
   # allPhotos は Photo を返す
@@ -32,7 +34,7 @@ const typeDefs = `
 
   # ミューテーションによって新たに投稿された Photo を返す
   type Mutation {
-    postPhoto(name: String! description: String): Photo!
+    postPhoto(input: PostPhotoInput!): Photo!
   }
 `
 

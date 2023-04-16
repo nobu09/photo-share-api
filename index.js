@@ -20,6 +20,10 @@ const typeDefs = `
     category: PhotoCategory!
   }
 
+  input PostPhotoInput {
+    
+  }
+
   # allPhotos は Photo を返す
   type Query {
     totalPhotos: Int!

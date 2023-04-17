@@ -22,7 +22,7 @@ const typeDefs = `
 
   input PostPhotoInput {
     name: String!
-    category: PhotoCategory=POTRAIT
+    category: PhotoCategory=PORTRAIT
     description: String
   }
 

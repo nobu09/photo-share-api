@@ -18,12 +18,20 @@ const typeDefs = `
     name: String!
     description: String
     category: PhotoCategory!
+    postedBy: User!
   }
 
   input PostPhotoInput {
     name: String!
     category: PhotoCategory=PORTRAIT
     description: String
+  }
+
+  type User {
+    githubLogin: ID!
+    name: String
+    avatar: String
+    postedPhotos: [Photo!]!
   }
 
   # allPhotos は Photo を返す

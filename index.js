@@ -48,8 +48,23 @@ const typeDefs = `
 
 // ユニークIDをインクリメントするための変数
 var _id = 0
-// 写真を格納するための配列を定義
-var photos = []
+
+// ユーザーのサンプル
+var users = [
+  { "githubLogin": "mHattrup", "name": "Mike Hattrup" },
+  { "githubLogin": "gPlake", "name": "Glen Plake" },
+  { "githubLogin": "sSchmidt", "name": "Scot Schmidt" }
+]
+var photos = [
+  {
+    "id": "1",
+    "name": "Dropping the Heart Chute",
+    "description": "The heart chute is one of my favorite chutes",
+    "category": "ACTION",
+    "githubUser": "gPlak"
+  }
+  
+]
 
 // totalPhotos というクエリを作成したので、スキーマと同じ名前のリゾルバ関数を定義する必要がある
 // 写真を格納した配列の長さを返す

@@ -61,9 +61,8 @@ var photos = [
     "name": "Dropping the Heart Chute",
     "description": "The heart chute is one of my favorite chutes",
     "category": "ACTION",
-    "githubUser": "gPlak"
+    "githubUser": "gPlake"
   }
-  
 ]
 
 // totalPhotos というクエリを作成したので、スキーマと同じ名前のリゾルバ関数を定義する必要がある
@@ -92,7 +91,16 @@ const resolvers = {
   },
 
   Photo: {
-    url: parent => `http://yoursite.com/img/${parent.id}.jpg`
+    url: parent => `http://yoursite.com/img/${parent.id}.jpg`,
+    postedBy: parent => {
+      return users.find(u => u.githubLogin === parent.githubUser)
+    }
+  },
+
+  User: {
+    postedPhotos: parent => {
+      return photos.filter(p => p.githubUser === parent.githubLogin)
+    }
   }
 }
 

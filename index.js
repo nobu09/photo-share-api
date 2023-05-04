@@ -32,12 +32,14 @@ const typeDefs = `
     name: String
     avatar: String
     postedPhotos: [Photo!]!
+    inPhotos: [Photo!]!
   }
 
   # allPhotos は Photo を返す
   type Query {
     totalPhotos: Int!
     allPhotos: [Photo!]!
+    taggedUser: [User!]!
   }
 
   # ミューテーションによって新たに投稿された Photo を返す

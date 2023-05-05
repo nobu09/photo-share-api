@@ -122,7 +122,14 @@ const resolvers = {
   User: {
     postedPhotos: parent => {
       return photos.filter(p => p.githubUser === parent.githubLogin)
-    }
+    },
+    taggedUsers: parent => tags
+      // 対象の写真が関係しているタグの配列を返す
+      .filters(tag => tag.photoID === parent.id)
+      // タグの配列をユーザーIDの配列に変換
+      .map(tag => tag.userID)
+      // ユーザーIDの配列をユーザーオブジェクトの配列に変換する
+      .map(userID => users.find(user => user.githubLogin === userID))
   }
 }
 

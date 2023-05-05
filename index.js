@@ -80,6 +80,12 @@ var photos = [
     "githubUser": "sSchmidt"
   },
 ]
+var tags = [
+  { "photoID": "1", "userID": "gPlake" },
+  { "photoID": "2", "userID": "sSchmidt" },
+  { "photoID": "2", "userID": "mHattrup" },
+  { "photoID": "2", "userID": "gPlake" },
+]
 
 // totalPhotos というクエリを作成したので、スキーマと同じ名前のリゾルバ関数を定義する必要がある
 // 写真を格納した配列の長さを返す

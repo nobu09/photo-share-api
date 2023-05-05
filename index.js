@@ -64,7 +64,21 @@ var photos = [
     "description": "The heart chute is one of my favorite chutes",
     "category": "ACTION",
     "githubUser": "gPlake"
-  }
+  },
+  {
+    "id": "2",
+    "name": "Enjoing the sunshine",
+    "description": "The heart chute is one of my favorite chutes",
+    "category": "SELFIE",
+    "githubUser": "gPlake"
+  },
+  {
+    "id": "3",
+    "name": "Gunbarrel 25",
+    "description": "25 laps on gunvarrel today",
+    "category": "LANDSCAPE",
+    "githubUser": "sSchmidt"
+  },
 ]
 
 // totalPhotos というクエリを作成したので、スキーマと同じ名前のリゾルバ関数を定義する必要がある

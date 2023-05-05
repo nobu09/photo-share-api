@@ -19,6 +19,7 @@ const typeDefs = `
     description: String
     category: PhotoCategory!
     postedBy: User!
+    taggedUsers: [User!]!
   }
 
   input PostPhotoInput {
@@ -39,7 +40,6 @@ const typeDefs = `
   type Query {
     totalPhotos: Int!
     allPhotos: [Photo!]!
-    taggedUser: [User!]!
   }
 
   # ミューテーションによって新たに投稿された Photo を返す

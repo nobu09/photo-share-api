@@ -119,7 +119,7 @@ const resolvers = {
     },
     taggedUsers: parent => tags
       // 対象の写真が関係しているタグの配列を返す
-      .filters(tag => tag.photoID === parent.id)
+      .filter(tag => tag.photoID === parent.id)
       // タグの配列をユーザーIDの配列に変換
       .map(tag => tag.userID)
       // ユーザーIDの配列をユーザーオブジェクトの配列に変換する
@@ -132,7 +132,7 @@ const resolvers = {
     },
     inPhotos: parent => tags
       // 対象のユーザーが関連しているタグの配列を返す
-      .filters(tag => tag.userId === parent.githubLogin)
+      .filter(tag => tag.userId === parent.githubLogin)
       // タグの配列を写真IDの配列に変換する
       .map(tag => tag.photoID)
       // 写真IDの配列を写真オブジェクトの配列に変換する

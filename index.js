@@ -3,6 +3,8 @@ const { ApolloServer } = require(`apollo-server`)
 
 // typeDefs 変数に文字列としてスキーマを定義
 const typeDefs = `
+  scalar DateTime
+
   enum PhotoCategory {
     SELFIE
     PORTRAIT
@@ -20,6 +22,7 @@ const typeDefs = `
     category: PhotoCategory!
     postedBy: User!
     taggedUsers: [User!]!
+    created: DateTime!
   }
 
   input PostPhotoInput {

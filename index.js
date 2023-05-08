@@ -1,6 +1,8 @@
 // apollo-server モジュールを読み込む
 const { ApolloServer } = require(`apollo-server`)
 
+const { GraphQLScalarType } = require(`graphql`)
+
 // typeDefs 変数に文字列としてスキーマを定義
 const typeDefs = `
   scalar DateTime
@@ -140,7 +142,15 @@ const resolvers = {
       .map(tag => tag.photoID)
       // 写真IDの配列を写真オブジェクトの配列に変換する
       .map(photoID => photos.find(photo => photo.id === photoID) )
-  }
+  },
+
+  DateTime: new GraphQLScalarType({
+    name: `DateTime`,
+    description: `A valid date time value`,
+    parseValue: value => new Date(value),
+    serialize: value => new Date(value).toISOString(),
+    parseLiteral: ast => ast.value
+  })
 }
 
 // サーバーのインスタンスを作成

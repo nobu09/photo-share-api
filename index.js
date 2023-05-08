@@ -68,21 +68,24 @@ var photos = [
     "name": "Dropping the Heart Chute",
     "description": "The heart chute is one of my favorite chutes",
     "category": "ACTION",
-    "githubUser": "gPlake"
+    "githubUser": "gPlake",
+    "created": "3-28-1977"
   },
   {
     "id": "2",
     "name": "Enjoing the sunshine",
     "description": "The heart chute is one of my favorite chutes",
     "category": "SELFIE",
-    "githubUser": "gPlake"
+    "githubUser": "gPlake",
+    "created": "1-2-1985"
   },
   {
     "id": "3",
     "name": "Gunbarrel 25",
     "description": "25 laps on gunvarrel today",
     "category": "LANDSCAPE",
-    "githubUser": "sSchmidt"
+    "githubUser": "sSchmidt",
+    "created": "2018-04-15T19:09:57.308Z"
   },
 ]
 var tags = [

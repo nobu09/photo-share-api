@@ -1,6 +1,7 @@
 // apollo-server モジュールを読み込む
 const { ApolloServer } = require(`apollo-server-express`)
 const express = require(`express`)
+const expressPlayground = require(`graphql-playground-middleware-express`).default
 
 const { GraphQLScalarType } = require(`graphql`)
 
@@ -180,6 +181,7 @@ startServer(server);
 app.get(`/`, (_req, res) =>
   res.end(`Welcome to the PhotoShare API`)
 )
+app.get(`/playground`, expressPlayground({ endpoint: `graphql` }))
 
 // 特定のポートでlistenする
 app.listen({ port: 4000 }, () => 

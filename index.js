@@ -165,11 +165,17 @@ var app = express()
 // その際、typeDefs（スキーマ）とリゾルバを引数に取る
 const server = new ApolloServer({
   typeDefs,
-  resolvers
+  resolvers,
 })
 
-// applyMiddleware()を呼び出してExpreeにミドルウェアを追加
-server.applyMiddleware({ app })
+async function startServer(server) {
+  await server.start()
+
+  // applyMiddleware()を呼び出してExpreeにミドルウェアを追加
+  server.applyMiddleware({ app })
+}
+
+startServer(server);
 
 app.get(`/`, (_req, res) =>
   res.end(`Welcome to the PhotoShare API`)

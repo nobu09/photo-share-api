@@ -4,8 +4,6 @@ const express = require(`express`)
 const expressPlayground = require(`graphql-playground-middleware-express`).default
 const { readFileSync } = require(`fs`)
 
-const { GraphQLScalarType } = require(`graphql`)
-
 const typeDefs = readFileSync(`./typeDefs.graphql`, `UTF-8`)
 const resolvers = require(`./resolvers`)
 

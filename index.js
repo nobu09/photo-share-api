@@ -3,6 +3,8 @@ const { ApolloServer } = require(`apollo-server-express`)
 const express = require(`express`)
 const expressPlayground = require(`graphql-playground-middleware-express`).default
 const { readFileSync } = require(`fs`)
+const { MongoClient } = require(`mongodb`)
+require (`dotenv`).config()
 
 const typeDefs = readFileSync(`./typeDefs.graphql`, `UTF-8`)
 const resolvers = require(`./resolvers`)
@@ -49,31 +51,51 @@ var tags = [
   { "photoID": "2", "userID": "gPlake" },
 ]
 
-// express()を呼び出しExpressアプリケーションを作成する
-var app = express()
+// // express()を呼び出しExpressアプリケーションを作成する
+// var app = exress()
 
-// サーバーのインスタンスを作成
-// その際、typeDefs（スキーマ）とリゾルバを引数に取る
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-})
+// // サーバーのインスタンスを作成
+// // その際、typeDefs（スキーマ）とリゾルバを引数に取る
+// const server = new ApolloServer({
+//   typeDefs,
+//   resolvers,
+// })
 
-async function startServer(server) {
-  await server.start()
+async function start() {
+  const app = express()
+  const MONGO_DB = process.env.DB_HOST
+
+  const client = await MongoClient.connect(
+    MONGO_DB,
+    { useNewUrlParser: true }
+  )
+  const db = client.db()
+  const context = { db }
+  const server = new ApolloServer({
+    typeDefs, resolvers, context
+  })
 
   // applyMiddleware()を呼び出してExpreeにミドルウェアを追加
   server.applyMiddleware({ app })
+
+  app.get(`/`, (_req, res) =>
+    res.end(`Welcome to the PhotoShare API`)
+  )
+  app.get(`/playground`, expressPlayground({ endpoint: `graphql` }))
+
+  // 特定のポートでlistenする
+  app.listen({ port: 4000 }, () => 
+    console.log(`GraphQL Server running @ http://localhost:4000${server.graphqlPath}`)
+  )
 }
 
-startServer(server);
+// start関数を実行
+start()
 
-app.get(`/`, (_req, res) =>
-  res.end(`Welcome to the PhotoShare API`)
-)
-app.get(`/playground`, expressPlayground({ endpoint: `graphql` }))
+// async function startServer(server) {
+  // await server.start()
+// }
 
-// 特定のポートでlistenする
-app.listen({ port: 4000 }, () => 
-  console.log(`GraphQL Server running @ http://localhost:4000${server.graphqlPath}`)
-)
+// startServer(server);
+
+

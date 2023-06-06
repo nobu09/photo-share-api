@@ -64,16 +64,33 @@ var tags = [
 async function start() {
   const app = express()
   const MONGO_DB = process.env.DB_HOST
+  let db
 
-  const client = await MongoClient.connect(
-    MONGO_DB,
-    { useNewUrlParser: true }
-  )
-  const db = client.db()
+  try {
+    const client = await MongoClient.connect(
+      MONGO_DB,
+      { useNewUrlParser: true }
+    )
+    db = client.db()
+  } catch (error) {
+    console.log(`
+
+      Mongo DB Host not found!
+      please add DB_HOST environment variable to .env file
+
+      exiting...
+
+    `)
+    process.exit(1)
+  }
+
+
   const context = { db }
   const server = new ApolloServer({
     typeDefs, resolvers, context
   })
+
+  await server.start()
 
   // applyMiddleware()を呼び出してExpreeにミドルウェアを追加
   server.applyMiddleware({ app })
@@ -91,11 +108,3 @@ async function start() {
 
 // start関数を実行
 start()
-
-// async function startServer(server) {
-  // await server.start()
-// }
-
-// startServer(server);
-
-

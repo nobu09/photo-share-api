@@ -84,7 +84,6 @@ async function start() {
     process.exit(1)
   }
 
-
   const context = { db }
   const server = new ApolloServer({
     typeDefs, resolvers, context

@@ -4,8 +4,23 @@ const { GraphQLScalarType } = require(`graphql`)
 // 写真を格納した配列の長さを返す
 const resolvers = {
     Query: {
-      totalPhotos: () => photos.length,
-      allPhotos: () => photos
+      totalPhotos: (parent, args, { db }) => 
+        db.collection(`photos`)
+          .estimatedDocumentCount(),
+
+      allPhotos: (parent, args, { db }) => 
+        db.collection(`photos`)
+          .find()
+          .toArray(),
+
+      totalUsers: (parent, args, { db }) =>
+        db.collection(`users`)
+          .estimatedDocumentCount(),
+
+      allUsers: (parent, args, { db }) => 
+        db.collection(`users`)
+          .find()
+          .toArray()
     },
   
     // postPhoto ミューテーションと対応するリゾルバ

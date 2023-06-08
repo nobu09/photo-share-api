@@ -13,3 +13,11 @@ const requestGithubToken = credentials =>
    .catch(error => {
       throw new Error(JSON.stringify(error))
   })
+
+  const requestGithubUserAccount = token =>
+    fetch(
+        `https://api.github.com/user?access_token=${token}`
+    ).then(toJSON)
+    .catch(error => {
+        throw new Error(JSON.stringify(error))
+    })

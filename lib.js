@@ -21,3 +21,10 @@ const requestGithubToken = credentials =>
     .catch(error => {
         throw new Error(JSON.stringify(error))
     })
+
+async authorizeWithGithub(credentials) {
+    const { access_token } = await requestGithubToken(credentials)
+    const githubUser = await requestGithubUserAccount(access_token)
+
+    return { ...githubUser, access_token }
+}

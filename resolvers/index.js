@@ -75,7 +75,23 @@ const resolvers = {
       parseValue: value => new Date(value),
       serialize: value => new Date(value).toISOString(),
       parseLiteral: ast => ast.value
-    })
+    }),
+
+    async githubAuth(parent, { code }, { db })
+    {
+        // 1. GitHubからデータを取得する
+        let {
+            message,
+            access_token,
+            avatar_url,
+            login,
+            name
+        } = await authorizeWithGithub({
+            client_id: process.env.GITHUB_CLIENT_ID,
+            client_secret: process.env.GITHUB_CLIENT_SECRET,
+            code
+        })
+    }
   }
 
   module.exports = resolvers

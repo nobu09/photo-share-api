@@ -92,12 +92,26 @@ const resolvers = {
             code
         })
 
+        // 2. メッセージがある場合は何らかのエラーが発生している
         if (message) {
             throw new Error(message)
         }
 
+        // 3. データをひとつのオブジェクトにまとめる
         let latestUserInfo = {
+          name,
+          githubLogin: login,
+          githubToken: access_token,
+          avatar: avatar_url
         }
+
+        // 4. 新しい情報をもとにレコードを作成または更新する
+        const { ops:[user] } = await db
+          .collection(`users`)
+          .replaceOne({ githubLogin: login }, latestUserInfo, { upsert: true })
+
+        // 5. ユーザー情報とトークンを返す
+        return { user, token: access_token }
     }
   }
 

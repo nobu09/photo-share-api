@@ -28,3 +28,5 @@ const authorizeWithGithub = async credentials => {
 
     return { ...githubUser, access_token }
 }
+
+module.exports = { authorizeWithGithub }

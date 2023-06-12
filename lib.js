@@ -5,9 +5,10 @@ const requestGithubToken = credentials =>
         method: `POST`,
         headers: {
             'Content-Type': 'application/json',
-            Accept: `application/json`
+            Accept: `application/json`,
+            Authorization: `token ${credentials.access_token}`
         },
-        body: JSON.stringify(credentials)
+        body: JSON.stringify(credentials.code)
     }
   ).then(res => res.json())
    .catch(error => {

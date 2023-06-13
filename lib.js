@@ -17,7 +17,14 @@ const requestGithubToken = credentials =>
 
 const requestGithubUserAccount = token =>
   fetch(
-      `https://api.github.com/user?access_token=${token}`
+      `https://api.github.com/user`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: `application/json`,
+          Authorization: `token ${token}`
+        }
+      }
   ).then(res => res.json())
   .catch(error => {
       throw new Error(JSON.stringify(error))

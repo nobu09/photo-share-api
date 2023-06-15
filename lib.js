@@ -6,12 +6,12 @@ const requestGithubToken = credentials =>
         headers: {
             'Content-Type': 'application/json',
             Accept: `application/json`,
-            Authorization: `token ${credentials.access_token}`
         },
-        body: JSON.stringify(credentials.code)
+        body: JSON.stringify(credentials)
     }
   ).then(res => res.json())
    .catch(error => {
+      console.log("requestGithubToken error")
       throw new Error(JSON.stringify(error))
   })
 
@@ -27,7 +27,8 @@ const requestGithubUserAccount = token =>
       }
   ).then(res => res.json())
   .catch(error => {
-      throw new Error(JSON.stringify(error))
+    console.log("requestGithubUserAccount error")
+    throw new Error(JSON.stringify(error))
 })
 
 const authorizeWithGithub = async credentials => {

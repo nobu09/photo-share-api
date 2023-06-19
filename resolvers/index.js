@@ -53,7 +53,7 @@ const resolvers = {
           client_secret: process.env.GITHUB_CLIENT_SECRET,
           code,
         })
-    
+
         if (message) {
           throw new Error(message)
         }

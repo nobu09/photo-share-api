@@ -16,10 +16,9 @@ const requestGithubToken = credentials => {
     console.log(res.status)
     console.log(JSON.stringify(res))
     res.json()
-  }).
-   catch(error => {
-      console.log("requestGithubToken error")
-      throw new Error(JSON.stringify(error))
+  }).catch(error => {
+    console.log("requestGithubToken error")
+    throw new Error(JSON.stringify(error))
   })
 }
 
@@ -30,15 +29,11 @@ const requestGithubUserAccount = token => {
       {
         headers: {
           'Content-Type': 'application/json',
-          Accept: `application/json`,
+          'Accept': 'application/json',
           Authorization: `Bearer ${token}`
         }
       }
   ).then(res => res.json())
-  .catch(error => {
-    console.log("requestGithubUserAccount error")
-    throw new Error(JSON.stringify(error))
-})
 }
 
 const authorizeWithGithub = async credentials => {

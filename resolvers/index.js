@@ -21,7 +21,11 @@ const resolvers = {
       allUsers: (parent, args, { db }) => 
         db.collection(`users`)
           .find()
-          .toArray()
+          .toArray(),
+
+      me: (parent, args,{ currentUser }) => {
+        currentUser
+      }
     },
   
     // postPhoto ミューテーションと対応するリゾルバ

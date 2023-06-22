@@ -32,14 +32,23 @@ const resolvers = {
     // parent: 親オブジェクト（Mutation）への参照、root or obj、常にリゾルバの第一引数になる
     // args: この操作のために送られたGraphQL引数、{name,description} というオブジェクト
     Mutation: {
-      postPhoto(parent, args) {
-        // 新しい写真を作成し、idを生成する
-        var newPhoto = {
-          id: _id++,
+      async postPhoto(parent, args, { db, currentUser })
+      {
+        // 1. コンテキストにユーザーがいなければエラーを投げる
+        if (!currentUser) {
+          throw new Error('only an authorized user can post a photo')
+        }
+
+        // 2. 現在のユーザーのIDとPhotoを保存する
+        const newPhoto = {
           ...args.input,
+          userID: currentUser.githubLogin,
           created: new Date()
         }
-        photos.push(newPhoto)
+
+        // 3. 新しいphotoを追加して、データベースが生成したIDを取得する 
+        const { insertedIds } = await db.collection(`photos`).insert(newPhoto)
+        newPhoto.id = insertedIds[0]
   
         // 新しい写真を返す
         return newPhoto

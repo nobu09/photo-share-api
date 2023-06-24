@@ -87,9 +87,10 @@ const resolvers = {
     },
   
     Photo: {
-      url: parent => `http://yoursite.com/img/${parent.id}.jpg`,
-      postedBy: parent => {
-        return users.find(u => u.githubLogin === parent.githubUser)
+      id: parent => parent.id || parent._id,
+      url: parent => `/img/${parent._id}.jpg`,
+      postedBy: (parent, args, {db}) => {
+        db.collection(`users`).findOne({ githubLogin: parent.userID })
       },
       taggedUsers: parent => tags
         // 対象の写真が関係しているタグの配列を返す

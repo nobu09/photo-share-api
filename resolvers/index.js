@@ -54,6 +54,24 @@ const resolvers = {
         return newPhoto
       },
 
+      addFakeUsers: async (root, { count }, { db }) => {
+        const randomUserApi = `https://randomuser.me/api/?results=${count}`
+
+        const { results } = await fetch(randomUserApi)
+          .then(res => res.json())
+
+          const users = results.map(r => ({
+            githubLogin: r.login.username,
+            name: `${r.name.first} ${r.name.last}`,
+            avatar: r.picture.thumbnail,
+            githubToken: r.login.sha1
+          }))
+
+        await db.collection(`users`).insert(users)
+
+        return users
+      },
+
       async githubAuth(parent, { code }, { db }) {
         let {
           message,

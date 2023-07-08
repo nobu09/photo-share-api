@@ -101,6 +101,9 @@ const resolvers = {
         if (message) {
           throw new Error(message)
         }
+
+        console.log(login)
+        console.log(access_token)
     
         let latestUserInfo = {
           name,

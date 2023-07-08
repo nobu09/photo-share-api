@@ -1,20 +1,17 @@
 const fetch = require('node-fetch')
 
-const requestGithubToken = credentials => {
-  console.log("-----requestGithubToken")
+const requestGithubToken = async credentials => {
   fetch(
     'https://github.com/login/oauth/access_token',
     {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json',
+            Accept: 'application/json',
         },
         body: JSON.stringify(credentials)
     }
   ).then(res => {
-    console.log(res.status)
-    console.log(JSON.stringify(res))
     res.json()
   }).catch(error => {
     console.log("requestGithubToken error")
@@ -22,7 +19,7 @@ const requestGithubToken = credentials => {
   })
 }
 
-const requestGithubUserAccount = token => {
+const requestGithubUserAccount = async token => {
   console.log("-----requestGithubUserAccount")
   fetch(
       `https://api.github.com/user`,
@@ -30,7 +27,7 @@ const requestGithubUserAccount = token => {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          Authorization: `Bearer ${token}`
+          Authorization: `token ${token}`
         }
       }
   ).then(res => res.json())

@@ -51,16 +51,6 @@ var tags = [
   { "photoID": "2", "userID": "gPlake" },
 ]
 
-// // express()を呼び出しExpressアプリケーションを作成する
-// var app = exress()
-
-// // サーバーのインスタンスを作成
-// // その際、typeDefs（スキーマ）とリゾルバを引数に取る
-// const server = new ApolloServer({
-//   typeDefs,
-//   resolvers,
-// })
-
 async function start() {
   const app = express()
   const MONGO_DB = process.env.DB_HOST
@@ -84,7 +74,6 @@ async function start() {
     process.exit(1)
   }
 
-  const context = { db }
   const server = new ApolloServer({
     typeDefs,
     resolvers,
@@ -95,15 +84,15 @@ async function start() {
     }
   })
 
-  await server.start()
-
   // applyMiddleware()を呼び出してExpreeにミドルウェアを追加
   server.applyMiddleware({ app })
 
-  app.get(`/`, (_req, res) =>
-    res.end(`Welcome to the PhotoShare API`)
-  )
   app.get(`/playground`, expressPlayground({ endpoint: `graphql` }))
+
+  app.get('/', (req, res) => {
+    let url = `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&scope=user`
+    res.end(`<a href="${url}">Sign In with Github</a>`)
+  })
 
   // 特定のポートでlistenする
   app.listen({ port: 4000 }, () => 
@@ -111,5 +100,4 @@ async function start() {
   )
 }
 
-// start関数を実行
 start()

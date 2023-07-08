@@ -11,13 +11,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "apollo-server-express": "^3.12.0",
-    "dotenv": "^16.1.4",
-    "express": "^4.18.2",
-    "graphql": "^16.6.0",
-    "graphql-playground-middleware-express": "^1.7.23",
-    "mongodb": "^5.6.0",
-    "node-fetch": "^2.6.11",
-    "nodemon": "^2.0.22"
+    "apollo-server-express": "2.0.0",
+    "dotenv": "6.0.0",
+    "express": "4.16.3",
+    "graphql": "0.13.2",
+    "graphql-playground-middleware-express": "1.7.1",
+    "mongodb": "5.6.0",
+    "node-fetch": "2.1.2"
+  },
+  "devDependencies": {
+    "nodemon": "1.17.2"
   }
 }

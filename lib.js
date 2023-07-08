@@ -1,6 +1,6 @@
 const fetch = require('node-fetch')
 
-const requestGithubToken = async credentials => {
+const requestGithubToken = credentials => {
   fetch(
     'https://github.com/login/oauth/access_token',
     {

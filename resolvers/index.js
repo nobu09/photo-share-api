@@ -1,5 +1,5 @@
 const { GraphQLScalarType } = require(`graphql`)
-const { authorizeWithGithub } = require('../lib')
+const Mutation = require(`./Mutation`)
 
 // totalPhotos というクエリを作成したので、スキーマと同じ名前のリゾルバ関数を定義する必要がある
 // 写真を格納した配列の長さを返す
@@ -27,98 +27,7 @@ const resolvers = {
         currentUser
       }
     },
-  
-    // postPhoto ミューテーションと対応するリゾルバ
-    // parent: 親オブジェクト（Mutation）への参照、root or obj、常にリゾルバの第一引数になる
-    // args: この操作のために送られたGraphQL引数、{name,description} というオブジェクト
-    Mutation: {
-      async postPhoto(parent, args, { db, currentUser })
-      {
-        // 1. コンテキストにユーザーがいなければエラーを投げる
-        if (!currentUser) {
-          throw new Error('only an authorized user can post a photo')
-        }
-
-        // 2. 現在のユーザーのIDとPhotoを保存する
-        const newPhoto = {
-          ...args.input,
-          userID: currentUser.githubLogin,
-          created: new Date()
-        }
-
-        // 3. 新しいphotoを追加して、データベースが生成したIDを取得する 
-        const { insertedIds } = await db.collection(`photos`).insert(newPhoto)
-        newPhoto.id = insertedIds[0]
-  
-        // 新しい写真を返す
-        return newPhoto
-      },
-
-      addFakeUsers: async (root, { count }, { db }) => {
-        const randomUserApi = `https://randomuser.me/api/?results=${count}`
-
-        const { results } = await fetch(randomUserApi)
-          .then(res => res.json())
-
-          const users = results.map(r => ({
-            githubLogin: r.login.username,
-            name: `${r.name.first} ${r.name.last}`,
-            avatar: r.picture.thumbnail,
-            githubToken: r.login.sha1
-          }))
-
-        await db.collection(`users`).insert(users)
-
-        return users
-      },
-
-      async fakeUserAuth(parent, { githubLogin }, { db }) {
-        const user = await db.collection(`users`).findOne({ githubLogin })
-
-        if (!user) {
-          throw new Error(`Cannot find user with githubLogin "${githubLogin}"`)
-        }
-
-        return {
-          token: user.githubToken,
-          user
-        }
-      },
-
-      async githubAuth(parent, { code }, { db }) {
-        let {
-          message,
-          access_token,
-          avatar_url,
-          login,
-          name
-        } = await authorizeWithGithub({
-          client_id: process.env.GITHUB_CLIENT_ID,
-          client_secret: process.env.GITHUB_CLIENT_SECRET,
-          code,
-        })
-
-        if (message) {
-          throw new Error(message)
-        }
-
-        console.log(login)
-        console.log(access_token)
-    
-        let latestUserInfo = {
-          name,
-          githubLogin: login,
-          githubToken: access_token,
-          avatar: avatar_url
-        }
-    
-        const { ops:[user] } = await db
-          .collection('users')
-          .replaceOne({ githubLogin: login }, latestUserInfo, { upsert: true })
-    
-        return { user, token: access_token }
-      },
-    },
+    Mutation,
   
     Photo: {
       id: parent => parent.id || parent._id,

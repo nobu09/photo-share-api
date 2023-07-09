@@ -69,7 +69,7 @@ module.exports = {
         githubToken: r.login.sha1
       }))
 
-    await db.collection(`users`).insert(users)
+    await db.collection(`users`).insertMany(users)
 
     return users
   },

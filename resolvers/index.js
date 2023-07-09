@@ -24,7 +24,7 @@ const resolvers = {
           .toArray(),
 
       me: (parent, args,{ currentUser }) => {
-        currentUser
+        return currentUser
       }
     },
     Mutation,

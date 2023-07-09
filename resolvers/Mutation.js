@@ -17,8 +17,8 @@ module.exports = {
     }
 
     // 3. 新しいphotoを追加して、データベースが生成したIDを取得する 
-    const { insertedIds } = await db.collection(`photos`).insert(newPhoto)
-    newPhoto.id = insertedIds[0]
+    const { insertedId } = await db.collection(`photos`).insertOne(newPhoto)
+    newPhoto.id = insertedId
 
     // 新しい写真を返す
     return newPhoto

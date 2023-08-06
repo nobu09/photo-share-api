@@ -2,7 +2,7 @@ const { authorizeWithGithub } = require('../lib')
 const fetch = require('node-fetch')
 
 module.exports = {
-  async postPhoto(parent, args, { db, currentUser })
+  async postPhoto(root, args, { db, currentUser, pubsub })
   {
     // 1. コンテキストにユーザーがいなければエラーを投げる
     if (!currentUser) {
@@ -19,6 +19,9 @@ module.exports = {
     // 3. 新しいphotoを追加して、データベースが生成したIDを取得する 
     const { insertedId } = await db.collection(`photos`).insertOne(newPhoto)
     newPhoto.id = insertedId
+
+    // 新しいphotoを追加したことを通知する（photo-addedイベントをパブリッシュする）
+    pubsub.publish('photo-added', { newPhoto })
 
     // 新しい写真を返す
     return newPhoto

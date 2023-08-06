@@ -4,6 +4,7 @@ const express = require(`express`)
 const expressPlayground = require(`graphql-playground-middleware-express`).default
 const { readFileSync } = require(`fs`)
 const { MongoClient } = require(`mongodb`)
+const { createServer } = require(`http`)
 require (`dotenv`).config()
 
 const typeDefs = readFileSync(`./typeDefs.graphql`, `UTF-8`)
@@ -94,9 +95,13 @@ async function start() {
     res.end(`<a href="${url}">Sign In with Github</a>`)
   })
 
+  const httpServer = createServer(app)
+  // subscriptionを有効にする(WebSocketを使う)
+  server.installSubscriptionHandlers(httpServer)
+
   // 特定のポートでlistenする
-  app.listen({ port: 4000 }, () => 
-    console.log(`GraphQL Server running @ http://localhost:4000${server.graphqlPath}`)
+  httpServer.listen({ port: 4000 }, () =>
+    console.log(`GraphQL Server running at http://localhost:4000${server.graphqlPath}`)
   )
 }
 

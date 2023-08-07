@@ -28,6 +28,14 @@ const resolvers = {
       }
     },
     Mutation,
+
+    Subscripton: {
+      newPhoto: {
+        subscribe: (parent, args, { pubsub }) =>
+          pubsub.asyncIterator(`photo-added`)
+      }
+
+    },
   
     Photo: {
       id: parent => parent.id || parent._id,

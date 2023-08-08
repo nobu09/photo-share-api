@@ -1,5 +1,5 @@
 // apollo-server モジュールを読み込む
-const { ApolloServer } = require(`apollo-server-express`)
+const { ApolloServer, PubSub } = require(`apollo-server-express`)
 const express = require(`express`)
 const expressPlayground = require(`graphql-playground-middleware-express`).default
 const { readFileSync } = require(`fs`)
@@ -75,13 +75,15 @@ async function start() {
     process.exit(1)
   }
 
+  const pubsub = new PubSub()
+
   const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context: async ({ req }) => {
-      const githubToken = req.headers.authorization
+    context: async ({ req, connection }) => {
+      const githubToken = req ? req.headers.authorization : connection.context.Authorization
       const currentUser = await db.collection(`users`).findOne({ githubToken })
-      return { db, currentUser }
+      return { db, currentUser, pubsub }
     }
   })
 

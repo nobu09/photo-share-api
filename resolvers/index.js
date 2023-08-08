@@ -31,8 +31,10 @@ const resolvers = {
 
     Subscription: {
       newPhoto: {
-        subscribe: (parent, args, { pubsub }) =>
+        subscribe: (parent, args, { pubsub }) => {
+          console.log(`newPhoto subscription`)
           pubsub.asyncIterator(`photo-added`)
+        }
       }
 
     },

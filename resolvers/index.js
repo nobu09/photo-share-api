@@ -1,5 +1,6 @@
 const { GraphQLScalarType } = require(`graphql`)
 const Mutation = require(`./Mutation`)
+const Subscription = require(`./Subscription`)
 
 // totalPhotos というクエリを作成したので、スキーマと同じ名前のリゾルバ関数を定義する必要がある
 // 写真を格納した配列の長さを返す
@@ -28,17 +29,7 @@ const resolvers = {
       }
     },
     Mutation,
-
-    Subscription: {
-      newPhoto: {
-        subscribe: (parent, args, { pubsub }) => {
-          console.log(`newPhoto subscription`)
-          pubsub.asyncIterator(`photo-added`)
-        }
-      }
-
-    },
-  
+    Subscription,
     Photo: {
       id: parent => parent.id || parent._id,
       url: parent => `/img/${parent._id}.jpg`,

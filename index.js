@@ -13,6 +13,7 @@ const resolvers = require(`./resolvers`)
 async function start() {
   const app = express()
   const MONGO_DB = process.env.DB_HOST
+  const pubsub = new PubSub()
   let db
 
   try {
@@ -32,8 +33,6 @@ async function start() {
     `)
     process.exit(1)
   }
-
-  const pubsub = new PubSub()
 
   const server = new ApolloServer({
     typeDefs,

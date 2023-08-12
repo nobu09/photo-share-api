@@ -54,5 +54,6 @@ type Mutation {
 }
 
 type Subscription {
-  newPhoto: Photo!
+  newPhoto: Photo!,
+  newUser: User!
 }

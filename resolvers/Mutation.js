@@ -1,4 +1,4 @@
-const { authorizeWithGithub } = require('../lib')
+const { authorizeWithGithub, uploadStream } = require('../lib')
 const fetch = require('node-fetch')
 
 module.exports = {
@@ -19,6 +19,13 @@ module.exports = {
     // 3. 新しいphotoを追加して、データベースが生成したIDを取得する 
     const { insertedId } = await db.collection(`photos`).insertOne(newPhoto)
     newPhoto.id = insertedId
+
+    const toPath = path.join(
+      __dirname, '..', 'assets', 'photos', `${newPhoto.id}.jpg`
+    )
+
+    const { stream } = await args.input.file
+    await uploadStream(input.file, toPath)
 
     // 新しいphotoを追加したことを通知する（photo-addedイベントをパブリッシュする）
     pubsub.publish('photo-added', { newPhoto })

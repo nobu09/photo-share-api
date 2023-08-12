@@ -54,6 +54,12 @@ async function start() {
     res.end(`<a href="${url}">Sign In with Github</a>`)
   })
 
+  // ローカルの静的ファイルをルートで公開するために、express.staticミドルウェアを追加
+  app.use(
+    '/img/photos',
+    express.static(path.join(__dirname, 'assets', 'photos'))
+  )
+
   const httpServer = createServer(app)
   // subscriptionを有効にする(WebSocketを使う)
   server.installSubscriptionHandlers(httpServer)

@@ -1,4 +1,5 @@
 scalar DateTime
+scalar Upload
 
 enum PhotoCategory {
   SELFIE
@@ -23,6 +24,7 @@ input PostPhotoInput {
   name: String!
   category: PhotoCategory=PORTRAIT
   description: String
+  file: Upload!
 }
 
 type User {

@@ -54,7 +54,10 @@ module.exports = {
     const updateResult = await db
       .collection('users')
       .replaceOne({ githubLogin: login }, latestUserInfo, { upsert: true })
-    const user  = await db.collection('users').findOne({ githubLogin: login })  
+    const user  = await db.collection('users').findOne({ githubLogin: login })
+
+    // 新しいuserを追加したことを通知する（user-addedイベントをパブリッシュする）
+    pubsub.publish('user-added', { user })
   
     return { user, token: access_token }
   },
@@ -73,6 +76,11 @@ module.exports = {
       }))
 
     await db.collection(`users`).insertMany(users)
+
+    // 新しいuserを追加したことを通知する（user-addedイベントをパブリッシュする）
+    users.forEach(newUser => {
+      pubsub.publish(`user-added`, { newUser })
+    })
 
     return users
   },

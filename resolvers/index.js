@@ -10,10 +10,14 @@ const resolvers = {
         db.collection(`photos`)
           .estimatedDocumentCount(),
 
-      allPhotos: (parent, args, { db }) => 
-        db.collection(`photos`)
+      allPhotos: (parent, args, { db }) => {
+        if (data.first > 100) {
+          throw new Error(`Only 100 photos can be requested at a time`)
+        }
+        return db.collection(`photos`)
           .find()
-          .toArray(),
+          .toArray()
+      },
 
       totalUsers: (parent, args, { db }) =>
         db.collection(`users`)

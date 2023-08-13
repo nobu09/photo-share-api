@@ -5,6 +5,7 @@ const expressPlayground = require(`graphql-playground-middleware-express`).defau
 const { readFileSync } = require(`fs`)
 const { MongoClient } = require(`mongodb`)
 const { createServer } = require(`http`)
+const path = require('path')
 require (`dotenv`).config()
 
 const typeDefs = readFileSync(`./typeDefs.graphql`, `UTF-8`)

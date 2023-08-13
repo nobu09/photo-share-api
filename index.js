@@ -65,6 +65,8 @@ async function start() {
   // subscriptionを有効にする(WebSocketを使う)
   server.installSubscriptionHandlers(httpServer)
 
+  httpServer.timeout = 5000
+
   // 特定のポートでlistenする
   httpServer.listen({ port: 4000 }, () =>
     console.log(`GraphQL Server running at http://localhost:4000${server.graphqlPath}`)

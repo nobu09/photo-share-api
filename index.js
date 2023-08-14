@@ -40,6 +40,7 @@ async function start() {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
+    engine: true,
     validationRules: [
       depthLimit(5),
       createComplexityLimitRule(1000, {
